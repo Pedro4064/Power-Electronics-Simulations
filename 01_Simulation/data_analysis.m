@@ -3,8 +3,8 @@ clear; clc;
 load('data/half_wave_controled_30deg.mat');
 half_wave_30_controled = ans;
 %% Voltage
-plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 1), "LineWidth",2), hold on;
-plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 2), "LineWidth",2), hold off;
+plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 1), "LineWidth",2.5), hold on;
+plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 2), "LineWidth",2.5,"LineStyle",":", "Color", '#fa7a2a'), hold off;
 
 xlim([0 5*(1/60)]);
 ylim([-300 300]);
@@ -18,10 +18,11 @@ grid on;
 print(gcf,'-djpeg','-r900', 'imgs/[HALF WAVE - Controled] 30deg Voltages.jpeg');
 
 %% Current
-plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 6), "LineWidth",3, "LineStyle","--"), hold on;
-plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 4), "LineWidth",2), hold off;
+plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 6), "LineWidth",2.5), hold on;
+plot(half_wave_30_controled.Time, half_wave_30_controled.Data(:, 4), "LineWidth",2.5,  "LineStyle",":", "Color", '#fa7a2a'), hold off;
 xlim([0 5*(1/60)]);
-set(gcf,'Position',[100 100 1000 500])
+ylim([-3 25]);
+set(gcf,'Position',[100 100 1000 500]);
 legend('I_{Source}', 'I_{Load}', fontsize=12);
 xlabel('Time (s)', Fontsize=12);
 ylabel('Current (A)', FontSize=12);
@@ -65,8 +66,8 @@ present_data({P, S, fp}, ["Potência Ativa", "Potência Aparente", "Fator de Pot
 load('data/half_wave_controled_60deg.mat');
 half_wave_60_controled = ans;
 %% Voltage
-plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 1), "LineWidth",2), hold on;
-plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 2), "LineWidth",2), hold off;
+plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 1), "LineWidth",2.5), hold on;
+plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 2), "LineWidth",2.5, "Color", '#fa7a2a', 'LineStyle',':'), hold off;
 
 xlim([0 5*(1/60)]);
 ylim([-300 300]);
@@ -80,10 +81,11 @@ grid on;
 print(gcf,'-djpeg','-r900', 'imgs/[HALF WAVE - Controled] 60deg Voltages.jpeg');
 
 %% Current
-plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 6), "LineWidth",3, "LineStyle","--"), hold on;
-plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 4), "LineWidth",2), hold off;
+plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 6), "LineWidth",2.5), hold on;
+plot(half_wave_60_controled.Time, half_wave_60_controled.Data(:, 4), "LineWidth",2.5,"Color", '#fa7a2a', 'LineStyle',':'), hold off;
 xlim([0 5*(1/60)]);
-set(gcf,'Position',[100 100 1000 500])
+ylim([-3 25]);
+set(gcf,'Position',[100 100 1000 500]);
 legend('I_{Source}', 'I_{Load}', fontsize=12);
 xlabel('Time (s)', Fontsize=12);
 ylabel('Current (A)', FontSize=12);
