@@ -264,3 +264,157 @@ S = measurements_values{8} * measurements_values{2};
 fp= P/S;
 
 present_data({P, S, fp}, ["Potência Ativa", "Potência Aparente", "Fator de Potência"])
+
+%% %%%%%%%%%%%%%%%%%%%%% Full Bridge - 30 Deg Tri Phase %%%%%%%%%%%%%%%%%%%%% %%
+% Since the simulation was done on a variable step size, it is necessary to
+% create a linear interpolation of fixed step size so all the calculations
+% are correct.
+load("data/tri_full_wave_controled_30deg.mat");
+tri_full_wave_30_deg = ans;
+
+fixed_step_time = min(tri_full_wave_30_deg.Time):0.00001:max(tri_full_wave_30_deg.Time);
+original_time = tri_full_wave_30_deg.Time;
+data = tri_full_wave_30_deg.Data;
+
+fixed_step_data = interp1(original_time, data, fixed_step_time);
+
+% Furthermore, to avoid any calculations on the transient state, skip the
+% first period of the recorded signal
+valid_points = fixed_step_time >= (1/60);
+valid_time   = fixed_step_time(valid_points);
+valid_data   = fixed_step_data(valid_points, :);
+
+%% Voltage
+plot(valid_time, valid_data(:,1), "LineWidth",2.5), hold on;
+plot(valid_time, valid_data(:,2), "LineWidth",2.5,"LineStyle",":", "Color", '#fa7a2a'), hold off;
+
+xlim([1/60 6*(1/60)]);
+ylim([-400 400]);
+
+set(gcf,'Position',[100 100 1000 500])
+legend('V_{ab}', 'V_{Load}', fontsize=12);
+xlabel('Time (s)', fontsize=12);
+ylabel('Voltage (V)', fontsize=12);
+grid on;
+
+print(gcf,'-djpeg','-r900', 'imgs/[FULL WAVE TRI - Controled] 30deg Voltages.jpeg');
+
+%% Current
+plot(valid_time, valid_data(:, 6), "LineWidth",2.5), hold on;
+plot(valid_time, valid_data(:, 4), "LineWidth",2.5,  "LineStyle",":", "Color", '#fa7a2a'), hold off;
+xlim([1/60 6*(1/60)]);
+ylim([-30 30]);
+set(gcf,'Position',[100 100 1000 500]);
+legend('I_{a}', 'I_{Load}', fontsize=12);
+xlabel('Time (s)', Fontsize=12);
+ylabel('Current (A)', FontSize=12);
+grid on;
+
+print(gcf,'-djpeg','-r900', 'imgs/[FULL WAVE TRI - Controled] 30deg Currents.jpeg');
+
+%% Measurement Values
+measurements_labels(1) = "Mean Vab";
+measurements_values{1} = mean(valid_data(:, 1));
+measurements_labels(2) = 'RMS Vab';
+measurements_values{2} = rms(valid_data(:, 1));
+
+measurements_labels(3) = 'Mean Load Voltage';
+measurements_values{3} = mean(valid_data(:, 2));
+measurements_labels(4) = 'RMS Load Voltage';
+measurements_values{4} = rms(valid_data(:, 2));
+
+measurements_labels(5) = 'Mean Ia';
+measurements_values{5} = mean(valid_data(:, 6));
+measurements_labels(6) = 'RMS Ia';
+measurements_values{6} = rms(valid_data(:, 6));
+
+measurements_labels(7) = 'Mean Load Current';
+measurements_values{7} = mean(valid_data(:, 4));
+measurements_labels(8) = 'RMS Load Current';
+measurements_values{8} = rms(valid_data(:, 4));
+
+present_data(measurements_values, measurements_labels)
+
+%% Power Calculations
+P = 10 * measurements_values{8}^2;
+S = measurements_values{6} * sqrt(3)*measurements_values{2};
+fp= P/S;
+
+present_data({P, S, fp}, ["Potência Ativa", "Potência Aparente", "Fator de Potência"])
+
+%% %%%%%%%%%%%%%%%%%%%%% Full Bridge - 60 Deg Tri Phase %%%%%%%%%%%%%%%%%%%%% %%
+% Since the simulation was done on a variable step size, it is necessary to
+% create a linear interpolation of fixed step size so all the calculations
+% are correct.
+load("data/tri_full_wave_controled_60deg.mat");
+tri_full_wave_60_deg = ans;
+
+fixed_step_time = min(tri_full_wave_60_deg.Time):0.00001:max(tri_full_wave_60_deg.Time);
+original_time = tri_full_wave_60_deg.Time;
+data = tri_full_wave_60_deg.Data;
+
+fixed_step_data = interp1(original_time, data, fixed_step_time);
+
+% Furthermore, to avoid any calculations on the transient state, skip the
+% first period of the recorded signal
+valid_points = fixed_step_time >= (1/60);
+valid_time   = fixed_step_time(valid_points);
+valid_data   = fixed_step_data(valid_points, :);
+
+%% Voltage
+plot(valid_time, valid_data(:,1), "LineWidth",2.5), hold on;
+plot(valid_time, valid_data(:,2), "LineWidth",2.5, "Color", '#fa7a2a'), hold off;
+
+xlim([1/60 6*(1/60)]);
+ylim([-400 400]);
+
+set(gcf,'Position',[100 100 1000 500])
+legend('V_{ab}', 'V_{Load}', fontsize=12);
+xlabel('Time (s)', fontsize=12);
+ylabel('Voltage (V)', fontsize=12);
+grid on;
+
+print(gcf,'-djpeg','-r900', 'imgs/[FULL WAVE TRI - Controled] 60deg Voltages.jpeg');
+
+%% Current
+plot(valid_time, valid_data(:, 6), "LineWidth",2.5), hold on;
+plot(valid_time, valid_data(:, 4), "LineWidth",2.5, "LineStyle", ":", "Color", '#fa7a2a'), hold off;
+xlim([1/60 6*(1/60)]);
+ylim([-30 30]);
+set(gcf,'Position',[100 100 1000 500]);
+legend('I_{a}', 'I_{Load}', fontsize=12);
+xlabel('Time (s)', Fontsize=12);
+ylabel('Current (A)', FontSize=12);
+grid on;
+
+print(gcf,'-djpeg','-r900', 'imgs/[FULL WAVE TRI - Controled] 60deg Currents.jpeg');
+
+%% Measurement Values
+measurements_labels(1) = "Mean Vab";
+measurements_values{1} = mean(valid_data(:, 1));
+measurements_labels(2) = 'RMS Vab';
+measurements_values{2} = rms(valid_data(:, 1));
+
+measurements_labels(3) = 'Mean Load Voltage';
+measurements_values{3} = mean(valid_data(:, 2));
+measurements_labels(4) = 'RMS Load Voltage';
+measurements_values{4} = rms(valid_data(:, 2));
+
+measurements_labels(5) = 'Mean Ia';
+measurements_values{5} = mean(valid_data(:, 6));
+measurements_labels(6) = 'RMS Ia';
+measurements_values{6} = rms(valid_data(:, 6));
+
+measurements_labels(7) = 'Mean Load Current';
+measurements_values{7} = mean(valid_data(:, 4));
+measurements_labels(8) = 'RMS Load Current';
+measurements_values{8} = rms(valid_data(:, 4));
+
+present_data(measurements_values, measurements_labels)
+
+%% Power Calculations
+P = 10 * measurements_values{8}^2;
+S = measurements_values{6} * sqrt(3)*measurements_values{2};
+fp= P/S;
+
+present_data({P, S, fp}, ["Potência Ativa", "Potência Aparente", "Fator de Potência"])
